@@ -1,19 +1,24 @@
 package frontend
 
 import (
+	"database/sql"
 	"github.com/gorilla/mux"
 	"net/http"
 )
 
 type Handler struct {
-	StaticResources []string
+	db *sql.DB
 }
 
-func (*Handler) Handle(w http.ResponseWriter, r *http.Request) {
+func NewHandler(db *sql.DB) *Handler {
+	return &Handler{db}
+}
+
+func (h *Handler) Handle(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	_, ok := vars["section"]
 	if !ok {
-		Index(w, r)
+		h.Index(w, r)
 		return
 	}
 }

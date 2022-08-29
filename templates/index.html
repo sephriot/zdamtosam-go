@@ -1,5 +1,18 @@
 {{define "head"}}<title>ZdamToSam</title>{{end}}
 {{define "body"}}
 {{template "navbar" .}}
-index {{ . }}
+<div class="row">
+    <div class="col-2">
+        {{ range .Categories }}
+        {{ .Name }}
+        {{end}}
+    </div>
+    <div class="col-6">
+
+    </div>
+    <div class="col-4">
+
+    </div>
+</div>
+
 {{end}}

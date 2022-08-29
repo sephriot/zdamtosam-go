@@ -5,14 +5,13 @@ import (
 	"net/http"
 	"regexp"
 	"zdamtosam/src/backend"
+	"zdamtosam/src/db"
 	"zdamtosam/src/frontend"
 )
 
-var front = frontend.Handler{
-	StaticResources: []string{"ads.txt", "manifest.json", "img/*"},
-}
-
-var api = backend.NewHandler()
+var dbClient = db.NewDatabaseClient()
+var api = backend.NewHandler(dbClient)
+var front = frontend.NewHandler(dbClient)
 
 func init() {
 	functions.HTTP("Entrypoint", mainHandler)
