@@ -3,11 +3,13 @@ package frontend
 import (
 	"net/http"
 	"regexp"
+	"strings"
 	"zdamtosam/src/db"
 	"zdamtosam/src/frontend/tmplengine"
+	"zdamtosam/src/model"
 )
 
-func extractLevelPath(path string) string {
+func getLevelPath(path string) string {
 	firstPath := regexp.MustCompile("/level/[1-9]+")
 	level := firstPath.FindStringSubmatch(path)
 	if level != nil {
@@ -16,10 +18,25 @@ func extractLevelPath(path string) string {
 	return ""
 }
 
+func getLevel(path string) (string, bool) {
+	s := strings.Split(getLevelPath(path), "/")
+	if len(s) > 2 {
+		return s[2], true
+	}
+	return "", false
+}
+
 func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
 	levels := db.GetLevels(h.db)
-	categories := db.GetCategories(h.db)
-	levelPath := extractLevelPath(r.URL.Path)
+	currentLevel, ok := getLevel(r.URL.Path)
+	var categories []model.Category
+	if ok {
+		categories = db.GetCategoriesByLevel(h.db, currentLevel)
+	} else {
+		categories = db.GetCategories(h.db)
+	}
+
+	levelPath := getLevelPath(r.URL.Path)
 	data := map[string]interface{}{
 		"Levels":      levels,
 		"Categories":  categories,
