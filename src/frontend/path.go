@@ -41,6 +41,7 @@ func getBreadcrumbs(db *sql.DB, path string) []Breadcrumb {
 			Path: "/level/" + pathParams["level"],
 		})
 	}
+	subcategoryPath := ""
 	if pathParams["category"] != "" {
 		index := strings.Index(path, "/category/"+pathParams["category"])
 		basePath := ""
@@ -54,11 +55,18 @@ func getBreadcrumbs(db *sql.DB, path string) []Breadcrumb {
 		})
 
 		if pathParams["subcategory"] != "" {
+			subcategoryPath = categoryPath + "/subcategory/" + pathParams["subcategory"]
 			breadcrumbs = append(breadcrumbs, Breadcrumb{
 				Name: zdb.GetSubcategoryNameById(db, pathParams["subcategory"]),
-				Path: categoryPath + "/subcategory/" + pathParams["subcategory"],
+				Path: subcategoryPath,
 			})
 		}
+	}
+	if pathParams["exercise"] != "" {
+		breadcrumbs = append(breadcrumbs, Breadcrumb{
+			Name: "Zadanie " + pathParams["exercise"],
+			Path: subcategoryPath + "/exercise/" + pathParams["exercise"],
+		})
 	}
 
 	return breadcrumbs

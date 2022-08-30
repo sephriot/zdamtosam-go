@@ -6,7 +6,11 @@
         {{template "categories" .}}
     </div>
     <div class="col-6">
+        {{ if eq .SubcategoryPath "" }}
         {{template "subcategories" .}}
+        {{ else }}
+        {{template "exercises" .}}
+        {{ end }}
     </div>
     <div class="col-3">
 

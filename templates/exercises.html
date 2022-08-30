@@ -1,0 +1,9 @@
+{{define "exercises"}}
+{{ range .Exercises }}
+<div class="row">
+    <div class="col-auto">
+        <a href="{{ $.SubcategoryPath}}/exercise/{{ .Id }}">{{ .Task }}</a>
+    </div>
+</div>
+{{ end }}
+{{ end }}
