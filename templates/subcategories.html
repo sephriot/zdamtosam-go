@@ -1,0 +1,20 @@
+{{define "subcategories"}}
+{{ $subLen := (len .Subcategories) }}
+{{ range $i, $s := .Subcategories }}
+{{ if eq (mod $i 4) 0 }}
+<div class="row justify-content-center mb-5">
+    {{ end }}
+    <div class="col-3 text-center">
+        <a href="{{ $.CategoryPath}}/subcategory/{{ $s.Id }}">{{ $s.Name }}</a>
+    </div>
+    {{ if eq (mod $i 4) 3 }}
+</div>
+{{ else }}
+{{ $i = (add $i 1) }}
+{{ if eq $subLen $i }}
+</div>
+{{ end }}
+{{ end }}
+
+{{ end }}
+{{ end }}

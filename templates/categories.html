@@ -1,7 +1,17 @@
 {{define "categories"}}
-{{ range .Categories }}
-<a href="{{ $.LevelPath }}/category/{{ .Id }}" >
-    {{ .Name }}
-</a>
-{{end}}
-{{end}}
+<ul class="nav flex-column">
+    {{ range .Categories }}
+        {{ if eq $.CategoryPath (printf "%s/%s/%d" $.LevelPath "category" .Id) }}
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{ $.LevelPath }}/category/{{ .Id }}">
+                    {{ .Name }}
+                </a>
+            </li>
+        {{ else }}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ $.LevelPath }}/category/{{ .Id }}">{{ .Name }}</a>
+            </li>
+        {{ end }}
+    {{ end }}
+</ul>
+{{ end }}

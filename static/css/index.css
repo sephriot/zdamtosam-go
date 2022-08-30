@@ -23,3 +23,9 @@ body {
     --bs-nav-link-font-weight: 600
 }
 
+a {
+    text-decoration: none!important;
+    --bs-link-color: "#000000";
+    --bs-nav-link-color: "#000000"
+}
+
