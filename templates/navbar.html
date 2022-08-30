@@ -21,12 +21,24 @@
     <div class="row justify-content-center">
         {{ range .Levels }}
         <div class="col-auto">
-            <a class="nav-link text-center text-nowrap" aria-current="page" href="/level/{{.Id}}">{{ .Name }}</a>
+            {{$active := ""}}
+            {{if eq $.LevelPath (printf "%s%d" "/level/" .Id) }}
+                {{ $active = "active" }}
+            {{end}}
+            <a class="nav-link text-center text-nowrap {{ $active }}" href="/level/{{.Id}}">{{ .Name }}</a>
         </div>
         {{end}}
     </div>
     <div class="row pt-0">
-        Breadcrumbs
+        <div class="col-auto">
+            <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%23ff991c'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Library</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Data</li>
+                </ol>
+            </nav>
+        </div>
     </div>
 </nav>
 {{end}}

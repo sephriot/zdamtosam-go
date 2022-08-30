@@ -3,9 +3,7 @@
 {{template "navbar" .}}
 <div class="row">
     <div class="col-2">
-        {{ range .Categories }}
-        {{ .Name }}
-        {{end}}
+        {{template "categories" .}}
     </div>
     <div class="col-6">
 

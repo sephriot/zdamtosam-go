@@ -1,0 +1,7 @@
+{{define "categories"}}
+{{ range .Categories }}
+<a href="{{ $.LevelPath }}/category/{{ .Id }}" >
+    {{ .Name }}
+</a>
+{{end}}
+{{end}}

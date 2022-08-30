@@ -13,3 +13,13 @@ body {
     width: 100%;
     background-image: url("/img/kartka.png");
 }
+
+.breadcrumb-item+.breadcrumb-item::before {
+    margin-top: 8px;
+    collapse: '#ff991c';
+}
+
+.nav-link.active {
+    --bs-nav-link-font-weight: 600
+}
+
