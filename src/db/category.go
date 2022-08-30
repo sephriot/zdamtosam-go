@@ -38,3 +38,18 @@ func GetCategoriesByLevel(db *sql.DB, level string) []model.Category {
 
 	return categories
 }
+
+func GetCategoryNameById(db *sql.DB, id string) string {
+	rows, err := db.Query("SELECT name FROM categories WHERE id = ?;", id)
+	defer rows.Close()
+	if err != nil {
+		panic(err)
+	}
+
+	for rows.Next() {
+		var name string
+		rows.Scan(&name)
+		return name
+	}
+	return ""
+}

@@ -21,3 +21,18 @@ func GetLevels(db *sql.DB) []model.Level {
 
 	return levels
 }
+
+func GetLevelNameById(db *sql.DB, id string) string {
+	rows, err := db.Query("SELECT name FROM levels WHERE id = ?;", id)
+	defer rows.Close()
+	if err != nil {
+		panic(err)
+	}
+
+	for rows.Next() {
+		var name string
+		rows.Scan(&name)
+		return name
+	}
+	return ""
+}
