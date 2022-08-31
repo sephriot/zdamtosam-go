@@ -82,7 +82,7 @@ func GetExerciseById(db *sql.DB, id string) model.Exercise {
 		rows.Scan(&exercise.Id, &exercise.Task, &exercise.Hint, &exercise.StepByStep,
 			&exercise.Image, &exercise.LevelId, &exercise.SubcategoryId, &exercise.Answer)
 	}
-	exercise.Options = GetWrongAnswersForExerciseById(db, id)
+	exercise.Options = append(GetWrongAnswersForExerciseById(db, id), exercise.Answer)
 	exercise.NextId = GetNextExerciseId(db, exercise)
 	exercise.PreviousId = GetPreviousExerciseId(db, exercise)
 
