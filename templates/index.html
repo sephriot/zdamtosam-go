@@ -9,7 +9,11 @@
         {{ if eq .SubcategoryPath "" }}
         {{template "subcategories" .}}
         {{ else }}
-        {{template "exercises" .}}
+            {{ if eq .ExercisePath "" }}
+                {{template "exercises" .}}
+            {{ else }}
+                {{template "exercise" .}}
+            {{ end }}
         {{ end }}
     </div>
     <div class="col-3">
