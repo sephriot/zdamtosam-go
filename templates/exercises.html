@@ -1,8 +1,31 @@
 {{define "exercises"}}
-{{ range .Exercises }}
+
+{{ $exercisesLen := (len .Exercises) }}
+{{ if (gt $exercisesLen 10) }}
+<div class="row justify-content-center">
+    <div class="col-auto">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {{ if eq .QueryPage 0 }}
+                <li class="page-item"><a class="page-link disabled" href="?page=1">Previous</a></li>
+                {{ else }}
+                <li class="page-item"><a class="page-link" href="?page={{ sub .QueryPage 1 }}">Previous</a></li>
+                {{ end }}
+                <li class="page-item"><a class="page-link" href="?page={{ sub .QueryPage 1 }}">{{ sub .QueryPage 1 }}</a></li>
+
+                <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+{{ end }}
+
+{{ range $i, $e := .Exercises }}
 <div class="row">
     <div class="col-auto">
-        <a href="{{ $.SubcategoryPath}}/exercise/{{ .Id }}">{{ .Task }}</a>
+        <a href="{{ $.SubcategoryPath}}/exercise/{{ $e.Id }}">{{ $e.Task }}</a>
     </div>
 </div>
 {{ end }}

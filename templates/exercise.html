@@ -1,4 +1,28 @@
 {{define "exercise"}}
+<script>
+    function collapse(id) {
+        const bsCollapse = new bootstrap.Collapse(document.getElementById(id), {toggle: false})
+        bsCollapse.hide()
+    }
+    function answerClick(item) {
+        const id = item.id.split('-')[1];
+        const successSound = new Audio("https://storage.googleapis.com/zdamtosam-sounds/success.mp3")
+        const failureSound = new Audio("https://storage.googleapis.com/zdamtosam-sounds/failure.mp3")
+        if(id === '{{ .AnswerIndex }}') {
+            successSound.play()
+            item.classList.add("background-blink-success")
+            setInterval(() => {
+                item.classList.remove("background-blink-success")
+            }, 3000)
+        } else {
+            failureSound.play()
+            item.classList.add("background-blink-failure")
+            setInterval(() => {
+                item.classList.remove("background-blink-failure")
+            }, 3000)
+        }
+    }
+</script>
 <div class="row">
     <div class="col-auto">
         {{ if ne .Exercise.PreviousId 0 }}
@@ -18,21 +42,23 @@
         {{ end }}
     </div>
 </div>
+{{ if ne .Exercise.Image "" }}
+<div class="row mt-3 justify-content-center">
+    <div class="col-auto">
+        <img class="img-fluid" src="https://storage.googleapis.com/zdamtosam-images/{{ .Exercise.Image }}" alt="ObrazekDoZadania"/>
+    </div>
+</div>
+{{ end }}
 <div class="row mt-3">
-    {{ range .Exercise.Options }}
+    {{ range $i, $o := .Exercise.Options }}
     <div class="col-6 mb-3 justify-content-center" style="cursor: pointer;">
-        <div class="d-flex h-100 justify-content-center align-items-center align-middle">
-            {{ . }}
+        <div class="w-100 h-100 justify-content-center text-center answerCol" id="answer-{{ $i }}" onclick="answerClick(this)">
+            {{ $o }}
         </div>
     </div>
     {{ end }}
 </div>
-<script>
-    function collapse(id) {
-        const bsCollapse = new bootstrap.Collapse(document.getElementById(id), {toggle: false})
-        bsCollapse.hide()
-    }
-</script>
+
 <div class="row mt-3 justify-content-center">
     <div class="col-auto">
         <div data-bs-toggle="collapse"
@@ -67,14 +93,12 @@
     <div class="col">
         <div class="collapse multi-collapse" id="hintCollapse">
             <div class="card card-body">
-                Some placeholder content for the first collapse component of this multi-collapse example. This panel
-                is hidden by default but revealed when the user activates the relevant trigger.
+                {{ .Exercise.Hint }}
             </div>
         </div>
         <div class="collapse multi-collapse" id="stepByStepCollapse">
             <div class="card card-body">
-                Some placeholder content for the second collapse component of this multi-collapse example. This
-                panel is hidden by default but revealed when the user activates the relevant trigger.
+                {{ .Exercise.StepByStep }}
             </div>
         </div>
     </div>

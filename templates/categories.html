@@ -3,7 +3,7 @@
     {{ range .Categories }}
         {{ if eq $.CategoryPath (printf "%s/%s/%d" $.LevelPath "category" .Id) }}
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{ $.LevelPath }}/category/{{ .Id }}">
+                <a class="nav-link active" href="{{ $.LevelPath }}/category/{{ .Id }}">
                     {{ .Name }}
                 </a>
             </li>

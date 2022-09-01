@@ -38,7 +38,7 @@
                     {{ range $i, $b := .Breadcrumbs }}
                     {{ $i = (add $i 1) }}
                     {{ if eq $i $breadLen }}
-                    <li class="breadcrumb-item active" aria-current="page">{{ $b.Name }}</li>
+                    <li class="breadcrumb-item active"><a href="{{ $b.Path }}" aria-current="page">{{ $b.Name }}</a></li>
                     {{ else }}
                     <li class="breadcrumb-item"><a href="{{ $b.Path }}">{{ $b.Name }}</a></li>
                     {{ end }}

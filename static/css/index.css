@@ -14,7 +14,7 @@ body {
     background-image: url("/img/kartka.png");
 }
 
-.breadcrumb-item+.breadcrumb-item::before {
+.breadcrumb-item + .breadcrumb-item::before {
     margin-top: 8px;
     collapse: '#ff991c';
 }
@@ -24,9 +24,87 @@ body {
 }
 
 a {
-    text-decoration: none!important;
+    text-decoration: none !important;
     --bs-link-color: "#000000";
     --bs-nav-link-color: "#000000"
+}
+
+.hint-icon {
+    color: #ffc107;
+    height: 50px;
+    padding: 5px;
+    width: 50px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.hint-icon:hover {
+    color: white;
+    background-color: #ffc107;
+}
+
+.stepByStep-icon {
+    color: #198754;
+    height: 50px;
+    padding: 5px;
+    width: 50px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.stepByStep-icon:hover {
+    color: white;
+    background-color: #198754;
+}
+
+.answerCol {
+    background-color: white;
+    padding: 8px;
+    border-radius: 16px;
+    display: inline-block!important;
+    align-items: center;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .answerCol:hover {
+        background-color: rgba(255, 193, 7, 0.5);
+        cursor: pointer;
+    }
+}
+
+@keyframes background-blink-success {
+    0% {
+        background-color: rgba(25, 135, 84, 0.0);
+    }
+
+    50% {
+        background-color: rgba(25, 135, 84, 0.75);
+    }
+
+    100% {
+        background-color: rgba(25, 135, 84, 0.0);
+    }
+}
+
+.background-blink-success {
+    animation: background-blink-success 1s ease 0s 3;
+}
+
+@keyframes background-blink-failure {
+    0% {
+        background-color: rgba(220, 53, 69, 0.0);
+    }
+
+    50% {
+        background-color: rgba(220, 53, 69, 0.75);
+    }
+    100% {
+        background-color: rgba(220, 53, 69, 0.0);
+    }
+}
+
+.background-blink-failure {
+    animation: background-blink-failure 1s ease 0s 3;
 }
 
 

@@ -10,6 +10,9 @@ func Render(w http.ResponseWriter, data interface{}, templates ...string) {
 		"add": func(a, b int) int {
 			return a + b
 		},
+		"sub": func(a, b int) int {
+			return a - b
+		},
 		"mod": func(a, b int) int {
 			return a % b
 		},
