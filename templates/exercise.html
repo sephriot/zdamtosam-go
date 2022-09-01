@@ -20,7 +20,7 @@
 </div>
 <div class="row mt-3">
     {{ range .Exercise.Options }}
-    <div class="col-6 mb-3 justify-content-center">
+    <div class="col-6 mb-3 justify-content-center" style="cursor: pointer;">
         <div class="d-flex h-100 justify-content-center align-items-center align-middle">
             {{ . }}
         </div>
@@ -28,33 +28,53 @@
     {{ end }}
 </div>
 <script>
-function collapse(id) {
-    const bsCollapse = new bootstrap.Collapse(document.getElementById(id), {toggle: false})
-    bsCollapse.hide()
-}
+    function collapse(id) {
+        const bsCollapse = new bootstrap.Collapse(document.getElementById(id), {toggle: false})
+        bsCollapse.hide()
+    }
 </script>
+<div class="row mt-3 justify-content-center">
+    <div class="col-auto">
+        <div data-bs-toggle="collapse"
+             data-bs-target="#hintCollapse" aria-expanded="false"
+             onclick="collapse('stepByStepCollapse')"
+             aria-controls="hintCollapse"
+             style="cursor: pointer;"
+        >
+            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 20 20" class="hint-icon"
+                 height="2em"
+                 width="2em" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z"></path>
+            </svg>
+        </div>
+    </div>
+    <div class="col-auto">
+        <div data-bs-toggle="collapse"
+             data-bs-target="#stepByStepCollapse" aria-expanded="false"
+             onclick="collapse('hintCollapse')"
+             aria-controls="stepByStepCollapse"
+             style="cursor: pointer;"
+        >
+            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 640 512"
+                 class="stepByStep-icon"
+                 height="2em" width="2em" xmlns="http://www.w3.org/2000/svg">
+                <path d="M208 352c-2.39 0-4.78.35-7.06 1.09C187.98 357.3 174.35 360 160 360c-14.35 0-27.98-2.7-40.95-6.91-2.28-.74-4.66-1.09-7.05-1.09C49.94 352-.33 402.48 0 464.62.14 490.88 21.73 512 48 512h224c26.27 0 47.86-21.12 48-47.38.33-62.14-49.94-112.62-112-112.62zm-48-32c53.02 0 96-42.98 96-96s-42.98-96-96-96-96 42.98-96 96 42.98 96 96 96zM592 0H208c-26.47 0-48 22.25-48 49.59V96c23.42 0 45.1 6.78 64 17.8V64h352v288h-64v-64H384v64h-76.24c19.1 16.69 33.12 38.73 39.69 64H592c26.47 0 48-22.25 48-49.59V49.59C640 22.25 618.47 0 592 0z"></path>
+            </svg>
+        </div>
+    </div>
+</div>
 <div class="row mt-3">
-    <p>
-        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
-                data-bs-target="#hintCollapse" aria-expanded="false"
-                onclick="collapse('stepByStepCollapse')"
-                aria-controls="hintCollapse">Hint</button>
-        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
-                data-bs-target="#stepByStepCollapse" aria-expanded="false"
-                onclick="collapse('hintCollapse')"
-                aria-controls="stepByStepCollapse">StepByStep</button>
-    </p>
-    <div class="row">
-        <div class="col">
-            <div class="collapse multi-collapse" id="hintCollapse">
-                <div class="card card-body">
-                    Some placeholder content for the first collapse component of this multi-collapse example. This panel is hidden by default but revealed when the user activates the relevant trigger.
-                </div>
+    <div class="col">
+        <div class="collapse multi-collapse" id="hintCollapse">
+            <div class="card card-body">
+                Some placeholder content for the first collapse component of this multi-collapse example. This panel
+                is hidden by default but revealed when the user activates the relevant trigger.
             </div>
-            <div class="collapse multi-collapse" id="stepByStepCollapse">
-                <div class="card card-body">
-                    Some placeholder content for the second collapse component of this multi-collapse example. This panel is hidden by default but revealed when the user activates the relevant trigger.
-                </div>
+        </div>
+        <div class="collapse multi-collapse" id="stepByStepCollapse">
+            <div class="card card-body">
+                Some placeholder content for the second collapse component of this multi-collapse example. This
+                panel is hidden by default but revealed when the user activates the relevant trigger.
             </div>
         </div>
     </div>
