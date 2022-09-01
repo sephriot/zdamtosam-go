@@ -27,4 +27,36 @@
     </div>
     {{ end }}
 </div>
+<script>
+function collapse(id) {
+    const bsCollapse = new bootstrap.Collapse(document.getElementById(id), {toggle: false})
+    bsCollapse.hide()
+}
+</script>
+<div class="row mt-3">
+    <p>
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                data-bs-target="#hintCollapse" aria-expanded="false"
+                onclick="collapse('stepByStepCollapse')"
+                aria-controls="hintCollapse">Hint</button>
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                data-bs-target="#stepByStepCollapse" aria-expanded="false"
+                onclick="collapse('hintCollapse')"
+                aria-controls="stepByStepCollapse">StepByStep</button>
+    </p>
+    <div class="row">
+        <div class="col">
+            <div class="collapse multi-collapse" id="hintCollapse">
+                <div class="card card-body">
+                    Some placeholder content for the first collapse component of this multi-collapse example. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                </div>
+            </div>
+            <div class="collapse multi-collapse" id="stepByStepCollapse">
+                <div class="card card-body">
+                    Some placeholder content for the second collapse component of this multi-collapse example. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {{ end }}
