@@ -3,7 +3,6 @@ package frontend
 import (
 	"math/rand"
 	"net/http"
-	"strconv"
 	"zdamtosam/src/db"
 	"zdamtosam/src/frontend/tmplengine"
 	"zdamtosam/src/model"
@@ -52,7 +51,6 @@ func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
 		answerIndex = (3 + rotateBy) % 4
 		exercise.Options = rotate(exercise.Options, rotateBy)
 	}
-	pageIndex, _ := strconv.ParseInt(r.URL.Query().Get("page"), 10, 64)
 
 	data := map[string]interface{}{
 		"Levels":          levels,
@@ -67,7 +65,7 @@ func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
 		"SubcategoryPath": subcategoryPath,
 		"ExercisePath":    exercisePath,
 		"Breadcrumbs":     getBreadcrumbs(h.db, r.URL.Path),
-		"QueryPage":       pageIndex,
+		"QueryPage":       r.URL.Query().Get("page"),
 	}
 	tmplengine.Render(w, data, "templates/index.html", "templates/navbar.html",
 		"templates/categories.html", "templates/subcategories.html", "templates/exercises.html",

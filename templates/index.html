@@ -2,10 +2,14 @@
 {{define "body"}}
 {{template "navbar" .}}
 <div class="row">
-    <div class="col-12 col-md-3">
+    {{ $displayMode := "d-block" }}
+    {{ if ne .CategoryPath "" }}
+    {{ $displayMode = "d-none d-md-block" }}
+    {{ end }}
+    <div class="col-12 col-md-3 col-xxl-2 {{ $displayMode }}">
         {{template "categories" .}}
     </div>
-    <div class="col-6">
+    <div class="col-12 col-md-9 col-xl-8 offset-xxl-1 col-xxl-6">
         {{ if eq .SubcategoryPath "" }}
         {{template "subcategories" .}}
         {{ else }}
@@ -16,7 +20,7 @@
             {{ end }}
         {{ end }}
     </div>
-    <div class="col-3">
+    <div class="col-xl-1 col-xxl-3 d-none d-xl-block">
 
     </div>
 </div>

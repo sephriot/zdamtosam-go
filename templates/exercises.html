@@ -1,32 +1,92 @@
 {{define "exercises"}}
 
+{{ $pageSize := 10 }}
 {{ $exercisesLen := (len .Exercises) }}
-{{ if (gt $exercisesLen 10) }}
+{{ $pagesAmount := (divCeil $exercisesLen $pageSize) }}
+
+{{ $currentPage := 1 }}
+{{ if ne .QueryPage "" }}
+{{ $currentPage = (toInt .QueryPage) }}
+{{ end }}
+{{ $nextPage := (inc $currentPage) }}
+{{ $prevPage := (dec $currentPage) }}
+{{ $constPrevPage := $prevPage }}
+{{ $nextPageLink := $nextPage }}
+
+
+{{ $itemStart := (mul $constPrevPage $pageSize) }}
+{{ $itemEnd := (add $itemStart $pageSize) }}
+{{ range $i, $e := .Exercises }}
+{{ if and (ge $i $itemStart) (lt $i $itemEnd) }}
+<div class="row justify-content-center mb-3">
+    <div class="col-12">
+        <a href="{{ $.SubcategoryPath}}/exercise/{{ $e.Id }}">
+            <div class="exercise-item">
+                {{ $e.Task }}
+            </div>
+        </a>
+    </div>
+</div>
+{{ end }}
+{{ end }}
+
+
+{{ if (gt $exercisesLen $pageSize) }}
 <div class="row justify-content-center">
     <div class="col-auto">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-                {{ if eq .QueryPage 0 }}
-                <li class="page-item"><a class="page-link disabled" href="?page=1">Previous</a></li>
-                {{ else }}
-                <li class="page-item"><a class="page-link" href="?page={{ sub .QueryPage 1 }}">Previous</a></li>
-                {{ end }}
-                <li class="page-item"><a class="page-link" href="?page={{ sub .QueryPage 1 }}">{{ sub .QueryPage 1 }}</a></li>
+                {{ if (eq $currentPage 1) }}
+                {{ $prevPage = 1 }}
+                {{ $currentPage = 2 }}
+                {{ $nextPage = 3 }}
+                {{ $nextPageLink = 2 }}
+                <li class="page-item"><a class="page-link disabled" href="?page=1">
+                    <span aria-hidden="true">&laquo;</span>
+                </a></li>
+                <li class="page-item"><a class="page-link active" href="?page={{ $prevPage }}" aria-current="page">{{
+                    $prevPage }}</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ $currentPage }}">{{ $currentPage }}</a></li>
 
-                <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                {{ if (ne $currentPage $pagesAmount) }}
+                <li class="page-item"><a class="page-link" href="?page={{ $nextPage }}">{{ $nextPage }}</a></li>
+                {{ else }}
+                <li class="page-item"><a class="page-link disabled" href="?page={{ $nextPage }}">{{ $nextPage }}</a>
+                </li>
+                {{ end }}
+
+                <li class="page-item"><a class="page-link" href="?page={{ $nextPageLink }}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a></li>
+
+                {{ else }}
+
+                <li class="page-item"><a class="page-link" href="?page={{ $prevPage }}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ $prevPage }}">{{ $prevPage }}</a></li>
+                <li class="page-item"><a class="page-link active" href="?page={{ $currentPage }}" aria-current="page">{{
+                    $currentPage }}</a></li>
+
+                {{ if (ne $currentPage $pagesAmount) }}
+                <li class="page-item"><a class="page-link" href="?page={{ $nextPage }}">{{ $nextPage }}</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ $nextPageLink }}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a></li>
+                {{ else }}
+                <li class="page-item"><a class="page-link disabled" href="?page={{ $nextPage }}">{{ $nextPage }}</a>
+                </li>
+                <li class="page-item"><a class="page-link disabled" href="?page={{ $nextPageLink }}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a></li>
+                {{ end }}
+
+
+                {{ end }}
             </ul>
         </nav>
     </div>
 </div>
 {{ end }}
 
-{{ range $i, $e := .Exercises }}
-<div class="row">
-    <div class="col-auto">
-        <a href="{{ $.SubcategoryPath}}/exercise/{{ $e.Id }}">{{ $e.Task }}</a>
-    </div>
-</div>
-{{ end }}
 {{ end }}
