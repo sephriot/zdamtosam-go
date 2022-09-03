@@ -10,15 +10,7 @@
         {{template "categories" .}}
     </div>
     <div class="col-12 col-md-9 col-xl-8 offset-xxl-1 col-xxl-6">
-        {{ if eq .SubcategoryPath "" }}
-            {{template "subcategories" .}}
-        {{ else }}
-            {{ if eq .ExercisePath "" }}
-                {{template "exercises" .}}
-            {{ else }}
-                {{template "exercise" .}}
-            {{ end }}
-        {{ end }}
+        {{template "exercises" .}}
     </div>
     <div class="col-xl-1 col-xxl-3 d-none d-xl-block">
 

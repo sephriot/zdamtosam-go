@@ -10,6 +10,7 @@ type Exercise struct {
 	Image         string   `json:"image,omitempty"`
 	LevelId       int      `json:"levelId,omitempty"`
 	SubcategoryId int      `json:"subcategoryId,omitempty"`
+	CategoryId    int      `json:"categoryId,omitempty"`
 	UserId        string   `json:"userId,omitempty"`
 	Visible       int      `json:"visible,omitempty"`
 	Date          string   `json:"date,omitempty"`

@@ -45,6 +45,7 @@ a:hover {
     width: 50px;
     background-color: white;
     border-radius: 5px;
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
 }
 
 .hint-icon:hover {
@@ -59,6 +60,7 @@ a:hover {
     width: 50px;
     background-color: white;
     border-radius: 5px;
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
 }
 
 .stepByStep-icon:hover {
@@ -68,6 +70,7 @@ a:hover {
 
 .answerCol {
     background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
     border-radius: 0.375rem;
     padding: 8px;
     display: inline-block !important;

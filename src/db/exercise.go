@@ -2,8 +2,57 @@ package db
 
 import (
 	"database/sql"
+	"math"
+	"sort"
+	"strings"
 	"zdamtosam/src/model"
 )
+
+func unique(input []model.Exercise) []model.Exercise {
+	u := make([]model.Exercise, 0, len(input))
+	m := make(map[int]bool)
+
+	for _, val := range input {
+		if _, ok := m[val.Id]; !ok {
+			m[val.Id] = true
+			u = append(u, val)
+		}
+	}
+
+	return u
+}
+
+func sortBestMarch(input []model.Exercise, searchSubQueries []string) []model.Exercise {
+	type ExerciseWithScore struct {
+		exercise model.Exercise
+		score    int
+	}
+	scored := make([]ExerciseWithScore, 0, len(input))
+	for _, exercise := range input {
+		value := 0
+		lastPos := -1
+		for _, subQuery := range searchSubQueries {
+			nowPos := strings.Index(exercise.Task, subQuery)
+			if nowPos != -1 {
+				value++
+			}
+			if lastPos != -1 && lastPos < nowPos {
+				value++
+			}
+			lastPos = nowPos
+		}
+		scored = append(scored, ExerciseWithScore{score: value, exercise: exercise})
+	}
+
+	sort.Slice(scored, func(i, j int) bool {
+		return scored[i].score > scored[j].score
+	})
+	ret := make([]model.Exercise, 0, len(input))
+	for _, s := range scored {
+		ret = append(ret, s.exercise)
+	}
+	return ret
+}
 
 func GetExercisesBySubcategoryId(db *sql.DB, subcategoryId string) []model.Exercise {
 	rows, err := db.Query("SELECT id, task FROM exercises WHERE subcategory_id = ? AND visible = 1;", subcategoryId)
@@ -18,6 +67,33 @@ func GetExercisesBySubcategoryId(db *sql.DB, subcategoryId string) []model.Exerc
 		rows.Scan(&exercise.Id, &exercise.Task)
 		exercises = append(exercises, exercise)
 	}
+	return exercises
+}
+
+func GetExercisesBySearchQuery(db *sql.DB, searchQuery string) []model.Exercise {
+
+	split := strings.Split(searchQuery, " ")
+	// Consider up to 25 first keywords
+	split = split[:int(math.Min(float64(len(split)), 25))]
+	exercises := make([]model.Exercise, 0)
+	for _, subQuery := range split {
+		query := "SELECT exercises.id AS id, task, subcategory_id, level_id, category_id FROM `exercises` JOIN subcategories ON exercises.subcategory_id = subcategories.id JOIN categories on categories.id = subcategories.category_id  WHERE task LIKE ? LIMIT 20;"
+		rows, err := db.Query(query, "%"+subQuery+"%")
+		if err != nil {
+			panic(err)
+		}
+		var exercise model.Exercise
+		for rows.Next() {
+			rows.Scan(&exercise.Id, &exercise.Task, &exercise.SubcategoryId, &exercise.LevelId, &exercise.CategoryId)
+			exercises = append(exercises, exercise)
+		}
+		_ = rows.Close()
+	}
+
+	exercises = unique(exercises)
+	exercises = sortBestMarch(exercises, split)
+	exercises = exercises[:int(math.Min(float64(len(exercises)), 20))] // return 20 best matches
+
 	return exercises
 }
 

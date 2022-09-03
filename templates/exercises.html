@@ -20,7 +20,11 @@
 {{ if and (ge $i $itemStart) (lt $i $itemEnd) }}
 <div class="row justify-content-center mb-3">
     <div class="col-12">
-        <a href="{{ $.SubcategoryPath}}/exercise/{{ $e.Id }}">
+        {{ $path := printf "%s/exercise/%d" $.SubcategoryPath $e.Id }}
+        {{ if eq $.SubcategoryPath "" }}
+        {{ $path = printf "/level/%d/category/%d/subcategory/%d/exercise/%d" $e.LevelId $e.CategoryId $e.SubcategoryId $e.Id }}
+        {{ end }}
+        <a href="{{ $path }}">
             <div class="exercise-item">
                 {{ $e.Task }}
             </div>
