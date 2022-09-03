@@ -32,7 +32,7 @@
         </a>
         {{ end }}
     </div>
-    <div class="col text-center overflow-scroll">
+    <div class="col text-center overflow-auto">
         {{ .Exercise.Task }}
     </div>
     <div class="col-auto">
@@ -97,12 +97,12 @@
 <div class="row mt-3">
     <div class="col">
         <div class="collapse multi-collapse" id="hintCollapse">
-            <div class="card card-body d-inline-block w-100 overflow-scroll">
+            <div class="card card-body d-inline-block w-100 overflow-auto">
                 {{ .Exercise.Hint }}
             </div>
         </div>
         <div class="collapse multi-collapse" id="stepByStepCollapse">
-            <div class="card card-body d-inline-block w-100 overflow-scroll">
+            <div class="card card-body d-inline-block w-100 overflow-auto">
                 {{ .Exercise.StepByStep }}
             </div>
         </div>
