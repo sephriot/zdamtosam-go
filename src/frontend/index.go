@@ -66,6 +66,7 @@ func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
 		"ExercisePath":    exercisePath,
 		"Breadcrumbs":     getBreadcrumbs(h.db, r.URL.Path),
 		"QueryPage":       r.URL.Query().Get("page"),
+		"RawQuery":        "",
 	}
 	tmplengine.Render(w, data, "templates/index.html", "templates/navbar.html",
 		"templates/categories.html", "templates/subcategories.html", "templates/exercises.html",

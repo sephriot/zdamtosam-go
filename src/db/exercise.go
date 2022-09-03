@@ -92,7 +92,7 @@ func GetExercisesBySearchQuery(db *sql.DB, searchQuery string) []model.Exercise 
 
 	exercises = unique(exercises)
 	exercises = sortBestMarch(exercises, split)
-	exercises = exercises[:int(math.Min(float64(len(exercises)), 20))] // return 20 best matches
+	exercises = exercises[:int(math.Min(float64(len(exercises)), 50))] // return 20 best matches
 
 	return exercises
 }

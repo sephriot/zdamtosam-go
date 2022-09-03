@@ -12,7 +12,10 @@
 {{ $prevPage := (dec $currentPage) }}
 {{ $constPrevPage := $prevPage }}
 {{ $nextPageLink := $nextPage }}
-
+{{ $appendQuery := "" }}
+{{ if (ne .RawQuery "") }}
+    {{ $appendQuery = toURL (printf "&%s" .RawQuery) }}
+{{ end }}
 
 {{ $itemStart := (mul $constPrevPage $pageSize) }}
 {{ $itemEnd := (add $itemStart $pageSize) }}
@@ -48,39 +51,39 @@
                 <li class="page-item"><a class="page-link disabled" href="?page=1">
                     <span aria-hidden="true">&laquo;</span>
                 </a></li>
-                <li class="page-item"><a class="page-link active" href="?page={{ $prevPage }}" aria-current="page">{{
+                <li class="page-item"><a class="page-link active" href="?page={{ $prevPage }}{{ $appendQuery }}" aria-current="page">{{
                     $prevPage }}</a></li>
-                <li class="page-item"><a class="page-link" href="?page={{ $currentPage }}">{{ $currentPage }}</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ $currentPage }}{{ $appendQuery }}">{{ $currentPage }}</a></li>
 
                 {{ if (ne $currentPage $pagesAmount) }}
-                <li class="page-item"><a class="page-link" href="?page={{ $nextPage }}">{{ $nextPage }}</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ $nextPage }}{{ $appendQuery }}">{{ $nextPage }}</a></li>
                 {{ else }}
-                <li class="page-item"><a class="page-link disabled" href="?page={{ $nextPage }}">{{ $nextPage }}</a>
+                <li class="page-item"><a class="page-link disabled" href="?page={{ $nextPage }}{{ $appendQuery }}">{{ $nextPage }}</a>
                 </li>
                 {{ end }}
 
-                <li class="page-item"><a class="page-link" href="?page={{ $nextPageLink }}">
+                <li class="page-item"><a class="page-link" href="?page={{ $nextPageLink }}{{ $appendQuery }}">
                     <span aria-hidden="true">&raquo;</span>
                 </a></li>
 
                 {{ else }}
 
-                <li class="page-item"><a class="page-link" href="?page={{ $prevPage }}">
+                <li class="page-item"><a class="page-link" href="?page={{ $prevPage }}{{ $appendQuery }}">
                     <span aria-hidden="true">&laquo;</span>
                 </a></li>
-                <li class="page-item"><a class="page-link" href="?page={{ $prevPage }}">{{ $prevPage }}</a></li>
-                <li class="page-item"><a class="page-link active" href="?page={{ $currentPage }}" aria-current="page">{{
+                <li class="page-item"><a class="page-link" href="?page={{ $prevPage }}{{ $appendQuery }}">{{ $prevPage }}</a></li>
+                <li class="page-item"><a class="page-link active" href="?page={{ $currentPage }}{{ $appendQuery }}" aria-current="page">{{
                     $currentPage }}</a></li>
 
                 {{ if (ne $currentPage $pagesAmount) }}
-                <li class="page-item"><a class="page-link" href="?page={{ $nextPage }}">{{ $nextPage }}</a></li>
-                <li class="page-item"><a class="page-link" href="?page={{ $nextPageLink }}">
+                <li class="page-item"><a class="page-link" href="?page={{ $nextPage }}{{ $appendQuery }}">{{ $nextPage }}</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ $nextPageLink }}{{ $appendQuery }}">
                     <span aria-hidden="true">&raquo;</span>
                 </a></li>
                 {{ else }}
-                <li class="page-item"><a class="page-link disabled" href="?page={{ $nextPage }}">{{ $nextPage }}</a>
+                <li class="page-item"><a class="page-link disabled" href="?page={{ $nextPage }}{{ $appendQuery }}">{{ $nextPage }}</a>
                 </li>
-                <li class="page-item"><a class="page-link disabled" href="?page={{ $nextPageLink }}">
+                <li class="page-item"><a class="page-link disabled" href="?page={{ $nextPageLink }}{{ $appendQuery }}">
                     <span aria-hidden="true">&raquo;</span>
                 </a></li>
                 {{ end }}

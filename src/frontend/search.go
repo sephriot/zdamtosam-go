@@ -1,7 +1,9 @@
 package frontend
 
 import (
+	"html/template"
 	"net/http"
+	"regexp"
 	"zdamtosam/src/db"
 	"zdamtosam/src/frontend/tmplengine"
 	"zdamtosam/src/model"
@@ -19,6 +21,8 @@ func (h *Handler) Search(w http.ResponseWriter, r *http.Request) {
 	exercisePath := ""
 	answerIndex := 0
 	exercises := db.GetExercisesBySearchQuery(h.db, r.URL.Query().Get("query"))
+	pageRegex := regexp.MustCompile(`page=[0-9]+&?`)
+	rawQuery := template.HTMLAttr(pageRegex.ReplaceAllString(r.URL.RawQuery, ""))
 
 	data := map[string]interface{}{
 		"Levels":          levels,
@@ -34,6 +38,7 @@ func (h *Handler) Search(w http.ResponseWriter, r *http.Request) {
 		"ExercisePath":    exercisePath,
 		"Breadcrumbs":     getBreadcrumbs(h.db, r.URL.Path),
 		"QueryPage":       r.URL.Query().Get("page"),
+		"RawQuery":        rawQuery,
 	}
 	tmplengine.Render(w, data, "templates/search.html", "templates/navbar.html",
 		"templates/categories.html", "templates/subcategories.html", "templates/exercises.html",
