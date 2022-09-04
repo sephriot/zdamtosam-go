@@ -8,7 +8,7 @@ import (
 	"zdamtosam/src/db"
 )
 
-const ZDAMTOSAM_HOST = "https://zdamtosam.pl"
+const ZdamtosamHost = "https://zdamtosam.pl"
 
 type URL struct {
 	Loc        string  `xml:"loc"`
@@ -24,7 +24,7 @@ type Sitemap struct {
 }
 
 func (s *Sitemap) Add(url URL) *Sitemap {
-	url.Loc = ZDAMTOSAM_HOST + url.Loc
+	url.Loc = ZdamtosamHost + url.Loc
 	s.Url = append(s.Url, url)
 	return s
 }
