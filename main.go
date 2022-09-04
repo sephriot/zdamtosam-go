@@ -23,11 +23,16 @@ func mainHandler(w http.ResponseWriter, r *http.Request) {
 	if len(group) > 1 {
 		switch group[1] {
 		case "search":
-			// TODO: search impl
-			front.Handle(w, r)
+			front.Search(w, r)
 			break
 		case "index.html":
 			front.Handle(w, r)
+			break
+		case "privacy-policy":
+			front.PrivacyPolicy(w, r)
+			break
+		case "terms-of-service":
+			front.TermsOfService(w, r)
 			break
 		case "ads.txt":
 			http.FileServer(http.Dir("static")).ServeHTTP(w, r)
@@ -48,6 +53,7 @@ func mainHandler(w http.ResponseWriter, r *http.Request) {
 			http.FileServer(http.Dir("static")).ServeHTTP(w, r)
 			break
 		case "sitemap.xml":
+			api.Sitemap(w, r)
 			// TODO: this should be auto generated
 			break
 		case "api":

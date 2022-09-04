@@ -6,6 +6,11 @@ import (
 	zdb "zdamtosam/src/db"
 )
 
+type Breadcrumb struct {
+	Name string
+	Path string
+}
+
 // Remember that path has to have odd number of params, following key/value pattern
 func getPathParams(path string) map[string]string {
 	s := strings.Split(path, "/")
@@ -32,6 +37,20 @@ func getBreadcrumbs(db *sql.DB, path string) []Breadcrumb {
 		breadcrumbs = append(breadcrumbs, Breadcrumb{
 			Name: "Wyszukaj",
 			Path: "/search",
+		})
+	}
+
+	if path == "/terms-of-service" {
+		breadcrumbs = append(breadcrumbs, Breadcrumb{
+			Name: "Warunki korzystania z serwisu",
+			Path: "/terms-of-service",
+		})
+	}
+
+	if path == "/privacy-policy" {
+		breadcrumbs = append(breadcrumbs, Breadcrumb{
+			Name: "Polityka prywatności",
+			Path: "/privacy-policy",
 		})
 	}
 
