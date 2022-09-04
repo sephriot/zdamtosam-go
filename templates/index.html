@@ -1,4 +1,7 @@
-{{define "head"}}<title>ZdamToSam</title>{{end}}
+{{define "head"}}
+<title>{{ .PageTitle }}</title>
+<meta name="description" content="{{ .PageDescription }}">
+{{end}}
 {{define "body"}}
 {{template "navbar" .}}
 <div class="row">
@@ -10,6 +13,9 @@
         {{template "categories" .}}
     </div>
     <div class="col-12 col-md-9 col-xl-8 offset-xxl-1 col-xxl-6">
+        {{ if eq .CategoryPath "" }}
+            {{template "homepage" }}
+        {{ end }}
         {{ if eq .SubcategoryPath "" }}
             {{template "subcategories" .}}
         {{ else }}

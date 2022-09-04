@@ -3,6 +3,8 @@ package frontend
 import (
 	"math/rand"
 	"net/http"
+	"strconv"
+	"strings"
 	"zdamtosam/src/db"
 	"zdamtosam/src/frontend/tmplengine"
 	"zdamtosam/src/model"
@@ -18,6 +20,36 @@ func rotate(s []string, k int) []string {
 	return s
 }
 
+func getCurrentLevelName(levels []model.Level, currentId string) string {
+	for _, l := range levels {
+		stringId := strconv.Itoa(l.Id)
+		if stringId == currentId {
+			return l.Name
+		}
+	}
+	return ""
+}
+
+func getCurrentCategoryName(categories []model.Category, currentId string) string {
+	for _, c := range categories {
+		stringId := strconv.Itoa(c.Id)
+		if stringId == currentId {
+			return c.Name
+		}
+	}
+	return ""
+}
+
+func getCurrentSubcategoryName(subcategories []model.Subcategory, currentId string) string {
+	for _, s := range subcategories {
+		stringId := strconv.Itoa(s.Id)
+		if stringId == currentId {
+			return s.Name
+		}
+	}
+	return ""
+}
+
 func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
 	levels := db.GetLevels(h.db)
 	pathParams := getPathParams(r.URL.Path)
@@ -30,8 +62,14 @@ func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
 	subcategoryPath := ""
 	exercisePath := ""
 	answerIndex := 0
+	pageTitle := "ZdamToSam"
+	pageDescription := "Zadania z matmy na każdym poziomie. Tutaj znajdziesz zadania, podpowiedzi i pełne rozwiązania. " +
+		"Ucz się samodzielnie lub z korepetytorem. Śledź swoje postępy, a na pewno zdasz na 5."
 	if pathParams["level"] != "" {
 		levelPath = "/level/" + pathParams["level"]
+		levelName := getCurrentLevelName(levels, pathParams["level"])
+		pageTitle = "ZdamToSam | " + levelName
+		pageDescription = "Zadania dla poziomu " + strings.ToLower(levelName)
 		categories = db.GetCategoriesByLevel(h.db, pathParams["level"])
 	} else {
 		categories = db.GetCategories(h.db)
@@ -39,10 +77,16 @@ func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
 	if pathParams["category"] != "" {
 		categoryPath = levelPath + "/category/" + pathParams["category"]
 		subcategories = db.GetSubcategories(h.db, pathParams["category"])
+		categoryName := getCurrentCategoryName(categories, pathParams["category"])
+		pageTitle = "ZdamToSam | " + categoryName
+		pageDescription = "Zadania z działu " + strings.ToLower(categoryName)
 	}
 	if pathParams["subcategory"] != "" {
 		subcategoryPath = categoryPath + "/subcategory/" + pathParams["subcategory"]
 		exercises = db.GetExercisesBySubcategoryId(h.db, pathParams["subcategory"])
+		subcategoryName := getCurrentSubcategoryName(subcategories, pathParams["subcategory"])
+		pageTitle = "ZdamToSam | " + subcategoryName
+		pageDescription = "Zadania z rodziału " + strings.ToLower(subcategoryName)
 	}
 	if pathParams["exercise"] != "" {
 		exercisePath = subcategoryPath + "/exercise/" + pathParams["exercise"]
@@ -50,6 +94,8 @@ func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
 		rotateBy := rand.Intn(4)
 		answerIndex = (3 + rotateBy) % 4
 		exercise.Options = rotate(exercise.Options, rotateBy)
+		pageTitle = strings.ReplaceAll(exercise.Task, "`", "")
+		pageDescription = strings.ReplaceAll(exercise.Task, "`", "")
 	}
 
 	data := map[string]interface{}{
@@ -67,8 +113,10 @@ func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
 		"Breadcrumbs":     getBreadcrumbs(h.db, r.URL.Path),
 		"QueryPage":       r.URL.Query().Get("page"),
 		"RawQuery":        "",
+		"PageTitle":       pageTitle,
+		"PageDescription": pageDescription,
 	}
-	tmplengine.Render(w, data, "templates/index.html", "templates/navbar.html",
+	tmplengine.Render(w, data, "templates/index.html", "templates/navbar.html", "templates/homepage.html",
 		"templates/categories.html", "templates/subcategories.html", "templates/exercises.html",
 		"templates/exercise.html")
 }

@@ -79,6 +79,7 @@
             </svg>
         </div>
     </div>
+    {{ if ne .Exercise.StepByStep "" }}
     <div class="col-auto">
         <div data-bs-toggle="collapse"
              data-bs-target="#stepByStepCollapse" aria-expanded="false"
@@ -93,6 +94,7 @@
             </svg>
         </div>
     </div>
+    {{ end }}
 </div>
 <div class="row mt-3">
     <div class="col">
