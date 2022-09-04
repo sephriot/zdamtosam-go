@@ -9,7 +9,7 @@ import (
 func (h *Handler) PrivacyPolicy(w http.ResponseWriter, r *http.Request) {
 	levels := db.GetLevels(h.db)
 	levelPath := ""
-	pageTitle := "ZdamToSam | Warunki korzystania z serwisu"
+	pageTitle := "ZdamToSam | Polityka prywatności"
 	pageDescription := "Polityka prywatności serwisu ZdamToSam"
 
 	data := map[string]interface{}{

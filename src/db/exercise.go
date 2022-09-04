@@ -55,7 +55,7 @@ func sortBestMarch(input []model.Exercise, searchSubQueries []string) []model.Ex
 }
 
 func GetExercisesBySubcategoryId(db *sql.DB, subcategoryId string) []model.Exercise {
-	rows, err := db.Query("SELECT id, task FROM exercises WHERE subcategory_id = ? AND visible = 1;", subcategoryId)
+	rows, err := db.Query("SELECT id, task, date FROM exercises WHERE subcategory_id = ? AND visible = 1;", subcategoryId)
 	defer rows.Close()
 	if err != nil {
 		panic(err)
@@ -64,7 +64,7 @@ func GetExercisesBySubcategoryId(db *sql.DB, subcategoryId string) []model.Exerc
 	var exercises []model.Exercise
 	for rows.Next() {
 		var exercise model.Exercise
-		rows.Scan(&exercise.Id, &exercise.Task)
+		rows.Scan(&exercise.Id, &exercise.Task, &exercise.Date)
 		exercises = append(exercises, exercise)
 	}
 	return exercises
