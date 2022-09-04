@@ -3,7 +3,7 @@ package frontend
 import (
 	"database/sql"
 	"strings"
-	zdb "zdamtosam/src/db"
+	zdb "zdamtosam.pl/src/db"
 )
 
 type Breadcrumb struct {

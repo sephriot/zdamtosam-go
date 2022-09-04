@@ -4,9 +4,9 @@ import (
 	"html/template"
 	"net/http"
 	"regexp"
-	"zdamtosam/src/db"
-	"zdamtosam/src/frontend/tmplengine"
-	"zdamtosam/src/model"
+	"zdamtosam.pl/src/db"
+	"zdamtosam.pl/src/frontend/tmplengine"
+	"zdamtosam.pl/src/model"
 )
 
 // Search TODO: deduplicate

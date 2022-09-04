@@ -5,7 +5,7 @@ import (
 	"math"
 	"sort"
 	"strings"
-	"zdamtosam/src/model"
+	"zdamtosam.pl/src/model"
 )
 
 func unique(input []model.Exercise) []model.Exercise {

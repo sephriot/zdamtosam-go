@@ -2,7 +2,7 @@ package db
 
 import (
 	"database/sql"
-	"zdamtosam/src/model"
+	"zdamtosam.pl/src/model"
 )
 
 func GetLevels(db *sql.DB) []model.Level {

@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"zdamtosam/src/db"
-	"zdamtosam/src/frontend/tmplengine"
-	"zdamtosam/src/model"
+	"zdamtosam.pl/src/db"
+	"zdamtosam.pl/src/frontend/tmplengine"
+	"zdamtosam.pl/src/model"
 )
 
 func rotate(s []string, k int) []string {

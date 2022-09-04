@@ -68,8 +68,3 @@ func mainHandler(w http.ResponseWriter, r *http.Request) {
 
 	front.Handle(w, r)
 }
-
-func main() {
-	http.HandleFunc("/", mainHandler)
-	http.ListenAndServe(":80", nil)
-}

@@ -1,24 +1,24 @@
 {
   "short_name": "ZdamToSam",
-  "name": "Zdam to Sam",
+  "name": "ZdamToSam",
   "icons": [
     {
-      "src": "img/favicon.ico",
+      "src": "https://storage.googleapis.com/zdamtosam-images/favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "img/logo192.png",
+      "src": "https://storage.googleapis.com/zdamtosam-images/logo192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "img/logo512.png",
+      "src": "https://storage.googleapis.com/zdamtosam-images/logo512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "description": "Zdam to sam czyli portal do samodzielniej nauki matematyki, niezależnie od poziomu. Z nami przygotujesz się na każdy egzamin.",
+  "description": "ZdamToSam to sam czyli portal do samodzielniej nauki matematyki, niezależnie od poziomu. Z nami przygotujesz się na każdy egzamin.",
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",

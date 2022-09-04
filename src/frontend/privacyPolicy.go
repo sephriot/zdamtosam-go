@@ -2,8 +2,8 @@ package frontend
 
 import (
 	"net/http"
-	"zdamtosam/src/db"
-	"zdamtosam/src/frontend/tmplengine"
+	"zdamtosam.pl/src/db"
+	"zdamtosam.pl/src/frontend/tmplengine"
 )
 
 func (h *Handler) PrivacyPolicy(w http.ResponseWriter, r *http.Request) {

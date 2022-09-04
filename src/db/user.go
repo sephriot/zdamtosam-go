@@ -2,7 +2,7 @@ package db
 
 import (
 	"database/sql"
-	"zdamtosam/src/model"
+	"zdamtosam.pl/src/model"
 )
 
 func GetUsers(db *sql.DB) []model.User {

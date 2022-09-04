@@ -1,4 +1,4 @@
-module zdamtosam
+module zdamtosam.pl
 
 go 1.16
 

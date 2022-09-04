@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 	"time"
-	"zdamtosam/src/db"
+	"zdamtosam.pl/src/db"
 )
 
 const ZdamtosamHost = "https://zdamtosam.pl"
