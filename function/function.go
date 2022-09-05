@@ -1,4 +1,4 @@
-package main
+package function
 
 import (
 	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
@@ -35,22 +35,22 @@ func mainHandler(w http.ResponseWriter, r *http.Request) {
 			front.TermsOfService(w, r)
 			break
 		case "ads.txt":
-			http.FileServer(http.Dir("static")).ServeHTTP(w, r)
+			http.FileServer(http.Dir("./serverless_function_source_code/static")).ServeHTTP(w, r)
 			break
 		case "manifest.json":
-			http.FileServer(http.Dir("static")).ServeHTTP(w, r)
+			http.FileServer(http.Dir("./serverless_function_source_code/static")).ServeHTTP(w, r)
 			break
 		case "robots.txt":
-			http.FileServer(http.Dir("static")).ServeHTTP(w, r)
+			http.FileServer(http.Dir("./serverless_function_source_code/static")).ServeHTTP(w, r)
 			break
 		case "img":
-			http.FileServer(http.Dir("static")).ServeHTTP(w, r)
+			http.FileServer(http.Dir("./serverless_function_source_code/static")).ServeHTTP(w, r)
 			break
 		case "css":
-			http.FileServer(http.Dir("static")).ServeHTTP(w, r)
+			http.FileServer(http.Dir("./serverless_function_source_code/static")).ServeHTTP(w, r)
 			break
 		case "js":
-			http.FileServer(http.Dir("static")).ServeHTTP(w, r)
+			http.FileServer(http.Dir("./serverless_function_source_code/static")).ServeHTTP(w, r)
 			break
 		case "sitemap.xml":
 			api.Sitemap(w, r)

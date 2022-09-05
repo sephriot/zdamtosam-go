@@ -45,7 +45,11 @@ func (h *Handler) Search(w http.ResponseWriter, r *http.Request) {
 		"PageTitle":       pageTitle,
 		"PageDescription": pageDescription,
 	}
-	tmplengine.Render(w, data, "templates/search.html", "templates/navbar.html",
-		"templates/categories.html", "templates/subcategories.html", "templates/exercises.html",
-		"templates/exercise.html")
+	tmplengine.Render(w, data,
+		tmplengine.TEMPLATE_PATH_PREFIX+"templates/search.html",
+		tmplengine.TEMPLATE_PATH_PREFIX+"templates/navbar.html",
+		tmplengine.TEMPLATE_PATH_PREFIX+"templates/categories.html",
+		tmplengine.TEMPLATE_PATH_PREFIX+"templates/subcategories.html",
+		tmplengine.TEMPLATE_PATH_PREFIX+"templates/exercises.html",
+		tmplengine.TEMPLATE_PATH_PREFIX+"templates/exercise.html")
 }

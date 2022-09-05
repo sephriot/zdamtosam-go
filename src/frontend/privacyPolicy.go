@@ -20,5 +20,7 @@ func (h *Handler) PrivacyPolicy(w http.ResponseWriter, r *http.Request) {
 		"PageTitle":       pageTitle,
 		"PageDescription": pageDescription,
 	}
-	tmplengine.Render(w, data, "templates/privacy-policy.html", "templates/navbar.html")
+	tmplengine.Render(w, data,
+		tmplengine.TEMPLATE_PATH_PREFIX+"templates/privacy-policy.html",
+		tmplengine.TEMPLATE_PATH_PREFIX+"templates/navbar.html")
 }

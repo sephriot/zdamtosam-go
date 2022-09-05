@@ -116,7 +116,11 @@ func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
 		"PageTitle":       pageTitle,
 		"PageDescription": pageDescription,
 	}
-	tmplengine.Render(w, data, "templates/index.html", "templates/navbar.html", "templates/homepage.html",
-		"templates/categories.html", "templates/subcategories.html", "templates/exercises.html",
-		"templates/exercise.html")
+	tmplengine.Render(w, data, tmplengine.TEMPLATE_PATH_PREFIX+"templates/index.html",
+		tmplengine.TEMPLATE_PATH_PREFIX+"templates/navbar.html",
+		tmplengine.TEMPLATE_PATH_PREFIX+"templates/homepage.html",
+		tmplengine.TEMPLATE_PATH_PREFIX+"templates/categories.html",
+		tmplengine.TEMPLATE_PATH_PREFIX+"templates/subcategories.html",
+		tmplengine.TEMPLATE_PATH_PREFIX+"templates/exercises.html",
+		tmplengine.TEMPLATE_PATH_PREFIX+"templates/exercise.html")
 }
