@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-var TEMPLATE_PATH_PREFIX = os.Getenv("TEMPLATE_PATH_PREFIX")
+var FS_PATH_PREFIX = os.Getenv("FS_PATH_PREFIX")
 
 func Render(w http.ResponseWriter, data interface{}, templates ...string) {
 	tmpl := template.Must(template.New("").Funcs(template.FuncMap{
@@ -48,6 +48,6 @@ func Render(w http.ResponseWriter, data interface{}, templates ...string) {
 		"toURL": func(v string) template.URL {
 			return template.URL(v)
 		},
-	}).ParseFiles(append(templates, TEMPLATE_PATH_PREFIX+"templates/base.html")...))
+	}).ParseFiles(append(templates, FS_PATH_PREFIX+"templates/base.html")...))
 	tmpl.ExecuteTemplate(w, "base", data)
 }

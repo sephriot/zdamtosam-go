@@ -1,10 +1,12 @@
 package frontend
 
 import (
+	"fmt"
 	"math/rand"
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 	"zdamtosam.pl/src/db"
 	"zdamtosam.pl/src/frontend/tmplengine"
 	"zdamtosam.pl/src/model"
@@ -51,6 +53,10 @@ func getCurrentSubcategoryName(subcategories []model.Subcategory, currentId stri
 }
 
 func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
+	cookie, _ := r.Cookie("Access-Token")
+	token, _ := db.VerifyIDToken(h.auth, cookie.Value)
+	fmt.Println(token.Expires, time.Now().Unix(), token.Expires > time.Now().Unix(), time.Unix(token.Expires, 0))
+
 	levels := db.GetLevels(h.db)
 	pathParams := getPathParams(r.URL.Path)
 	var categories []model.Category
@@ -116,11 +122,11 @@ func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
 		"PageTitle":       pageTitle,
 		"PageDescription": pageDescription,
 	}
-	tmplengine.Render(w, data, tmplengine.TEMPLATE_PATH_PREFIX+"templates/index.html",
-		tmplengine.TEMPLATE_PATH_PREFIX+"templates/navbar.html",
-		tmplengine.TEMPLATE_PATH_PREFIX+"templates/homepage.html",
-		tmplengine.TEMPLATE_PATH_PREFIX+"templates/categories.html",
-		tmplengine.TEMPLATE_PATH_PREFIX+"templates/subcategories.html",
-		tmplengine.TEMPLATE_PATH_PREFIX+"templates/exercises.html",
-		tmplengine.TEMPLATE_PATH_PREFIX+"templates/exercise.html")
+	tmplengine.Render(w, data, tmplengine.FS_PATH_PREFIX+"templates/index.html",
+		tmplengine.FS_PATH_PREFIX+"templates/navbar.html",
+		tmplengine.FS_PATH_PREFIX+"templates/homepage.html",
+		tmplengine.FS_PATH_PREFIX+"templates/categories.html",
+		tmplengine.FS_PATH_PREFIX+"templates/subcategories.html",
+		tmplengine.FS_PATH_PREFIX+"templates/exercises.html",
+		tmplengine.FS_PATH_PREFIX+"templates/exercise.html")
 }

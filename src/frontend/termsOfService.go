@@ -21,6 +21,6 @@ func (h *Handler) TermsOfService(w http.ResponseWriter, r *http.Request) {
 		"PageDescription": pageDescription,
 	}
 	tmplengine.Render(w, data,
-		tmplengine.TEMPLATE_PATH_PREFIX+"templates/terms-of-service.html",
-		tmplengine.TEMPLATE_PATH_PREFIX+"templates/navbar.html")
+		tmplengine.FS_PATH_PREFIX+"templates/terms-of-service.html",
+		tmplengine.FS_PATH_PREFIX+"templates/navbar.html")
 }

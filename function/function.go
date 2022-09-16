@@ -54,7 +54,6 @@ func mainHandler(w http.ResponseWriter, r *http.Request) {
 			break
 		case "sitemap.xml":
 			api.Sitemap(w, r)
-			// TODO: this should be auto generated
 			break
 		case "api":
 			api.Handle(w, r)

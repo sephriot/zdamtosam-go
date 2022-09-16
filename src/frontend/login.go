@@ -9,8 +9,7 @@ import (
 	"zdamtosam.pl/src/model"
 )
 
-// Search TODO: deduplicate
-func (h *Handler) Search(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 	levels := db.GetLevels(h.db)
 	var categories []model.Category
 	var subcategories []model.Subcategory
@@ -45,11 +44,6 @@ func (h *Handler) Search(w http.ResponseWriter, r *http.Request) {
 		"PageTitle":       pageTitle,
 		"PageDescription": pageDescription,
 	}
-	tmplengine.Render(w, data,
-		tmplengine.FS_PATH_PREFIX+"templates/search.html",
-		tmplengine.FS_PATH_PREFIX+"templates/navbar.html",
-		tmplengine.FS_PATH_PREFIX+"templates/categories.html",
-		tmplengine.FS_PATH_PREFIX+"templates/subcategories.html",
-		tmplengine.FS_PATH_PREFIX+"templates/exercises.html",
-		tmplengine.FS_PATH_PREFIX+"templates/exercise.html")
+	tmplengine.Render(w, data, tmplengine.FS_PATH_PREFIX+"templates/login.html",
+		tmplengine.FS_PATH_PREFIX+"templates/navbar.html")
 }

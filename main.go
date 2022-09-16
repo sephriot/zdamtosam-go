@@ -10,8 +10,9 @@ import (
 )
 
 var dbClient = db.NewDatabaseClient()
+var authClient = db.NewAuthClient()
 var api = backend.NewHandler(dbClient)
-var front = frontend.NewHandler(dbClient)
+var front = frontend.NewHandler(dbClient, authClient)
 
 func init() {
 	functions.HTTP("Entrypoint", mainHandler)
@@ -24,6 +25,9 @@ func mainHandler(w http.ResponseWriter, r *http.Request) {
 		switch group[1] {
 		case "search":
 			front.Search(w, r)
+			break
+		case "login":
+			front.Login(w, r)
 			break
 		case "index.html":
 			front.Handle(w, r)
@@ -54,7 +58,6 @@ func mainHandler(w http.ResponseWriter, r *http.Request) {
 			break
 		case "sitemap.xml":
 			api.Sitemap(w, r)
-			// TODO: this should be auto generated
 			break
 		case "api":
 			api.Handle(w, r)
