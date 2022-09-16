@@ -37,6 +37,9 @@ function setCookie(cname, cvalue) {
 
 const federatedLogin = (provider) => {
     signInWithPopup(auth, provider)
+        .then(() => {
+            location.href = "/"
+        })
         .catch((error) => {
             if (error.code === 'auth/account-exists-with-different-credential') {
                 alert("Konto o podanym adresie email już istnieje.\nSpróbuj zalogować się z użyciem konta z innego portalu.")

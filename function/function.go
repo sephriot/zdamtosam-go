@@ -10,8 +10,9 @@ import (
 )
 
 var dbClient = db.NewDatabaseClient()
+var authClient = db.NewAuthClient()
 var api = backend.NewHandler(dbClient)
-var front = frontend.NewHandler(dbClient)
+var front = frontend.NewHandler(dbClient, authClient)
 
 func init() {
 	functions.HTTP("Entrypoint", mainHandler)

@@ -40,6 +40,13 @@ func getBreadcrumbs(db *sql.DB, path string) []Breadcrumb {
 		})
 	}
 
+	if path == "/login" {
+		breadcrumbs = append(breadcrumbs, Breadcrumb{
+			Name: "Logowanie",
+			Path: "/login",
+		})
+	}
+
 	if path == "/terms-of-service" {
 		breadcrumbs = append(breadcrumbs, Breadcrumb{
 			Name: "Warunki korzystania z serwisu",

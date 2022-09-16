@@ -23,7 +23,7 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 	pageRegex := regexp.MustCompile(`page=[0-9]+&?`)
 	rawQuery := template.HTMLAttr(pageRegex.ReplaceAllString(r.URL.RawQuery, ""))
 
-	pageTitle := "ZdamToSam | Wyszukaj zadanie"
+	pageTitle := "ZdamToSam | Logowanie"
 	pageDescription := "Zadania z matmy na każdym poziomie. Tutaj znajdziesz zadania, podpowiedzi i pełne rozwiązania. Ucz się samodzielnie lub z korepetytorem. Śledź swoje postępy, a na pewno zdasz na 5."
 
 	data := map[string]interface{}{
