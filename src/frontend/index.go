@@ -52,11 +52,7 @@ func getCurrentSubcategoryName(subcategories []model.Subcategory, currentId stri
 	return ""
 }
 
-func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
-	cookie, _ := r.Cookie("Access-Token")
-	token, _ := db.VerifyIDToken(h.auth, cookie.Value)
-	fmt.Println(token.Expires, time.Now().Unix(), token.Expires > time.Now().Unix(), time.Unix(token.Expires, 0))
-
+func (h *Handler) prepareTemplateData(r *http.Request) map[string]interface{} {
 	levels := db.GetLevels(h.db)
 	pathParams := getPathParams(r.URL.Path)
 	var categories []model.Category
@@ -71,6 +67,7 @@ func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
 	pageTitle := "ZdamToSam"
 	pageDescription := "Zadania z matmy na każdym poziomie. Tutaj znajdziesz zadania, podpowiedzi i pełne rozwiązania. " +
 		"Ucz się samodzielnie lub z korepetytorem. Śledź swoje postępy, a na pewno zdasz na 5."
+
 	if pathParams["level"] != "" {
 		levelPath = "/level/" + pathParams["level"]
 		levelName := getCurrentLevelName(levels, pathParams["level"])
@@ -122,6 +119,17 @@ func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
 		"PageTitle":       pageTitle,
 		"PageDescription": pageDescription,
 	}
+
+	return data
+}
+
+func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
+	cookie, _ := r.Cookie("Access-Token")
+	token, _ := db.VerifyIDToken(h.auth, cookie.Value)
+	fmt.Println(token.Expires, time.Now().Unix(), token.Expires > time.Now().Unix(), time.Unix(token.Expires, 0))
+
+	data := h.prepareTemplateData(r)
+
 	tmplengine.Render(w, data, tmplengine.FS_PATH_PREFIX+"templates/index.html",
 		tmplengine.FS_PATH_PREFIX+"templates/navbar.html",
 		tmplengine.FS_PATH_PREFIX+"templates/homepage.html",
