@@ -1,6 +1,7 @@
 package frontend
 
 import (
+	"firebase.google.com/go/v4/auth"
 	"log"
 	"math/rand"
 	"net/http"
@@ -58,26 +59,33 @@ func (h *Handler) getLoggedUser(r *http.Request) model.User {
 		log.Default().Println(err)
 		return ret
 	}
+
 	if cookie.Value == "" {
 		return ret
 	}
 
-	token, err := db.VerifyIDToken(h.auth, cookie.Value)
-	if err != nil {
-		log.Default().Println(err)
-		return ret
+	cachedToken := h.userCache.Get(cookie.Value)
+	var userRecord *auth.UserRecord
+	if cachedToken == nil {
+		token, err := db.VerifyIDToken(h.auth, cookie.Value)
+		if err != nil {
+			log.Default().Println(err)
+			return ret
+		}
+
+		userRecord, err = db.GetUser(h.auth, token.UID)
+		if err != nil {
+			log.Default().Println(err)
+			return ret
+		}
+		h.userCache.Put(cookie.Value, token, userRecord)
+		cachedToken = h.userCache.Get(cookie.Value)
 	}
 
-	userRecord, err := db.GetUser(h.auth, token.UID)
-	if err != nil {
-		log.Default().Println(err)
-		return ret
-	}
-
-	ret.Id = userRecord.UID
-	ret.Email = userRecord.Email
-	ret.Picture = userRecord.PhotoURL
-	ret.Name = userRecord.DisplayName
+	ret.Id = cachedToken.UID
+	ret.Email = cachedToken.Email
+	ret.Picture = cachedToken.PhotoURL
+	ret.Name = cachedToken.DisplayName
 
 	return ret
 }
