@@ -52,7 +52,7 @@ func getCurrentSubcategoryName(subcategories []model.Subcategory, currentId stri
 }
 
 func (h *Handler) getLoggedUser(r *http.Request) model.User {
-	cookie, err := r.Cookie("Access-Token")
+	cookie, err := r.Cookie("__session")
 	if err != http.ErrNoCookie {
 		token, err := db.VerifyIDToken(h.auth, cookie.Value)
 		if err == nil {

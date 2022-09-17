@@ -26,9 +26,9 @@ auth.useDeviceLanguage();
 
 auth.onAuthStateChanged(async (user) => {
     if(user) {
-        setCookie("Access-Token", await user.getIdToken())
+        setCookie("__session", await user.getIdToken())
     } else {
-        setCookie("Access-Token", "")
+        setCookie("__session", "")
     }
 })
 
