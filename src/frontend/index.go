@@ -1,6 +1,7 @@
 package frontend
 
 import (
+	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -56,7 +57,11 @@ func (h *Handler) getLoggedUser(r *http.Request) model.User {
 		token, err := db.VerifyIDToken(h.auth, cookie.Value)
 		if err == nil {
 			return db.GetUserById(h.db, token.UID)
+		} else {
+			log.Default().Println(err)
 		}
+	} else {
+		log.Default().Println(err)
 	}
 
 	return model.User{}

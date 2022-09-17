@@ -26,6 +26,9 @@ func mainHandler(w http.ResponseWriter, r *http.Request) {
 		case "search":
 			front.Search(w, r)
 			break
+		case "login":
+			front.Login(w, r)
+			break
 		case "index.html":
 			front.Handle(w, r)
 			break
