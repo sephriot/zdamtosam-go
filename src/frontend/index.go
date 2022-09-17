@@ -53,18 +53,33 @@ func getCurrentSubcategoryName(subcategories []model.Subcategory, currentId stri
 
 func (h *Handler) getLoggedUser(r *http.Request) model.User {
 	cookie, err := r.Cookie("__session")
-	if err != http.ErrNoCookie {
-		token, err := db.VerifyIDToken(h.auth, cookie.Value)
-		if err == nil {
-			return db.GetUserById(h.db, token.UID)
-		} else {
-			log.Default().Println(err)
-		}
-	} else {
+	var ret model.User
+	if err != nil {
 		log.Default().Println(err)
+		return ret
+	}
+	if cookie.Value == "" {
+		return ret
 	}
 
-	return model.User{}
+	token, err := db.VerifyIDToken(h.auth, cookie.Value)
+	if err != nil {
+		log.Default().Println(err)
+		return ret
+	}
+
+	userRecord, err := db.GetUser(h.auth, token.UID)
+	if err != nil {
+		log.Default().Println(err)
+		return ret
+	}
+
+	ret.Id = userRecord.UID
+	ret.Email = userRecord.Email
+	ret.Picture = userRecord.PhotoURL
+	ret.Name = userRecord.DisplayName
+
+	return ret
 }
 
 func (h *Handler) prepareTemplateData(r *http.Request) map[string]interface{} {

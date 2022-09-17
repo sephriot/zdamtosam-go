@@ -36,3 +36,7 @@ func GetUserById(db *sql.DB, id string) model.User {
 
 	return user
 }
+
+func CreateUserIfNotExists(db *sql.DB, id, name, email, picture string) {
+
+}

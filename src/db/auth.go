@@ -26,3 +26,7 @@ func NewAuthClient() *auth.Client {
 func VerifyIDToken(authClient *auth.Client, token string) (*auth.Token, error) {
 	return authClient.VerifyIDToken(context.Background(), token)
 }
+
+func GetUser(authClient *auth.Client, token string) (*auth.UserRecord, error) {
+	return authClient.GetUser(context.Background(), token)
+}
