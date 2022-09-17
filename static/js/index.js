@@ -25,7 +25,11 @@ const auth = getAuth(app)
 auth.useDeviceLanguage();
 
 auth.onAuthStateChanged(async (user) => {
-    setCookie("Access-Token", await user.getIdToken())
+    if(user) {
+        setCookie("Access-Token", await user.getIdToken())
+    } else {
+        setCookie("Access-Token", "")
+    }
 })
 
 function setCookie(cname, cvalue) {
@@ -46,6 +50,15 @@ const federatedLogin = (provider) => {
             } else {
                 alert("Logowanie zakończone niepowodzeniem. Aby uzyskać pomoc skontaktuj się z administratorem strony.")
             }
+        });
+}
+
+window.logout = () => {
+    auth.signOut()
+        .then(function() {
+            location.href = "/"
+        })
+        .catch(function(error) {
         });
 }
 

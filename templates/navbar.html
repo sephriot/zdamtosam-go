@@ -19,9 +19,19 @@
             </form>
         </div>
         <div class="col-6 col-sm-auto order-sm-3 order-2 justify-content-end">
+            {{ if eq .LoggedUser.Id "" }}
             <a class="btn btn-outline-success float-end" href="/login">
                 Zaloguj się
             </a>
+            {{ else }}
+            <div class="btn btn-outline-success float-end" onclick="logout()">
+                Wyloguj się
+            </div>
+<!--            Future use -->
+<!--            <a href="/profile">-->
+<!--                <img src="{{ .LoggedUser.Picture }}" class="rounded-circle" alt="Profile picture" width="40px" height="40px" />-->
+<!--            </a>-->
+            {{ end }}
         </div>
     </div>
     <div class="row justify-content-center">

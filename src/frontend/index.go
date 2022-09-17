@@ -1,12 +1,10 @@
 package frontend
 
 import (
-	"fmt"
 	"math/rand"
 	"net/http"
 	"strconv"
 	"strings"
-	"time"
 	"zdamtosam.pl/src/db"
 	"zdamtosam.pl/src/frontend/tmplengine"
 	"zdamtosam.pl/src/model"
@@ -52,7 +50,21 @@ func getCurrentSubcategoryName(subcategories []model.Subcategory, currentId stri
 	return ""
 }
 
+func (h *Handler) getLoggedUser(r *http.Request) model.User {
+	cookie, err := r.Cookie("Access-Token")
+	if err != http.ErrNoCookie {
+		token, err := db.VerifyIDToken(h.auth, cookie.Value)
+		if err == nil {
+			return db.GetUserById(h.db, token.UID)
+		}
+	}
+
+	return model.User{}
+}
+
 func (h *Handler) prepareTemplateData(r *http.Request) map[string]interface{} {
+
+	loggedUser := h.getLoggedUser(r)
 	levels := db.GetLevels(h.db)
 	pathParams := getPathParams(r.URL.Path)
 	var categories []model.Category
@@ -118,16 +130,13 @@ func (h *Handler) prepareTemplateData(r *http.Request) map[string]interface{} {
 		"RawQuery":        "",
 		"PageTitle":       pageTitle,
 		"PageDescription": pageDescription,
+		"LoggedUser":      loggedUser,
 	}
 
 	return data
 }
 
 func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
-	cookie, _ := r.Cookie("Access-Token")
-	token, _ := db.VerifyIDToken(h.auth, cookie.Value)
-	fmt.Println(token.Expires, time.Now().Unix(), token.Expires > time.Now().Unix(), time.Unix(token.Expires, 0))
-
 	data := h.prepareTemplateData(r)
 
 	tmplengine.Render(w, data, tmplengine.FS_PATH_PREFIX+"templates/index.html",
