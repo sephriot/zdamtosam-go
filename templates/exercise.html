@@ -1,27 +1,42 @@
 {{define "exercise"}}
+<script src="/js/APIHandler.js"></script>
 <script>
+    const successSound = new Audio("https://storage.googleapis.com/zdamtosam-sounds/success.mp3")
+    const failureSound = new Audio("https://storage.googleapis.com/zdamtosam-sounds/failure.mp3")
+    let exerciseStart = Date.now()
     function collapse(id) {
         const bsCollapse = new bootstrap.Collapse(document.getElementById(id), {toggle: false})
         bsCollapse.hide()
     }
 
-    function answerClick(item) {
+    async function answerClick(item) {
         const id = item.id.split('-')[1];
-        const successSound = new Audio("https://storage.googleapis.com/zdamtosam-sounds/success.mp3")
-        const failureSound = new Audio("https://storage.googleapis.com/zdamtosam-sounds/failure.mp3")
         if (id === '{{ .AnswerIndex }}') {
-            successSound.play()
+            await successSound.play()
             item.classList.add("background-blink-success")
             setInterval(() => {
                 item.classList.remove("background-blink-success")
             }, 3000)
+            await postStats({
+                "subcategoryId": {{ .Exercise.SubcategoryId }},
+                "levelId": {{ .Exercise.LevelId }},
+                "seconds": Math.ceil((Date.now() - exerciseStart) / 1000),
+                "correct": true
+            })
         } else {
-            failureSound.play()
+            await failureSound.play()
             item.classList.add("background-blink-failure")
             setInterval(() => {
                 item.classList.remove("background-blink-failure")
             }, 3000)
+            await postStats({
+                "subcategoryId": {{ .Exercise.SubcategoryId }},
+                "levelId": {{ .Exercise.LevelId }},
+                "seconds": Math.ceil((Date.now() - exerciseStart) / 1000),
+                "correct": false
+        })
         }
+        exerciseStart = Date.now()
     }
 </script>
 <div class="row pb-md-0 pb-2 mt-2 mt-md-0">

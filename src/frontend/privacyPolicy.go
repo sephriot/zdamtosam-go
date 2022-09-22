@@ -7,7 +7,7 @@ import (
 )
 
 func (h *Handler) PrivacyPolicy(w http.ResponseWriter, r *http.Request) {
-	levels := db.GetLevels(h.db)
+	levels := db.GetLevels(h.Db)
 	levelPath := ""
 	pageTitle := "ZdamToSam | Polityka prywatności"
 	pageDescription := "Polityka prywatności serwisu ZdamToSam"
@@ -16,7 +16,7 @@ func (h *Handler) PrivacyPolicy(w http.ResponseWriter, r *http.Request) {
 		"Levels":          levels,
 		"LevelPath":       levelPath,
 		"CurrentPath":     r.URL.Path,
-		"Breadcrumbs":     getBreadcrumbs(h.db, r.URL.Path),
+		"Breadcrumbs":     getBreadcrumbs(h.Db, r.URL.Path),
 		"PageTitle":       pageTitle,
 		"PageDescription": pageDescription,
 	}

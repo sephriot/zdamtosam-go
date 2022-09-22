@@ -1,8 +1,6 @@
 package frontend
 
 import (
-	"firebase.google.com/go/v4/auth"
-	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -52,48 +50,10 @@ func getCurrentSubcategoryName(subcategories []model.Subcategory, currentId stri
 	return ""
 }
 
-func (h *Handler) getLoggedUser(r *http.Request) model.User {
-	cookie, err := r.Cookie("__session")
-	var ret model.User
-	if err != nil {
-		log.Default().Println(err)
-		return ret
-	}
-
-	if cookie.Value == "" {
-		return ret
-	}
-
-	cachedToken := h.userCache.Get(cookie.Value)
-	var userRecord *auth.UserRecord
-	if cachedToken == nil {
-		token, err := db.VerifyIDToken(h.auth, cookie.Value)
-		if err != nil {
-			log.Default().Println(err)
-			return ret
-		}
-
-		userRecord, err = db.GetUser(h.auth, token.UID)
-		if err != nil {
-			log.Default().Println(err)
-			return ret
-		}
-		h.userCache.Put(cookie.Value, token, userRecord)
-		cachedToken = h.userCache.Get(cookie.Value)
-	}
-
-	ret.Id = cachedToken.UID
-	ret.Email = cachedToken.Email
-	ret.Picture = cachedToken.PhotoURL
-	ret.Name = cachedToken.DisplayName
-
-	return ret
-}
-
 func (h *Handler) prepareTemplateData(r *http.Request) map[string]interface{} {
 
-	loggedUser := h.getLoggedUser(r)
-	levels := db.GetLevels(h.db)
+	loggedUser := h.GetLoggedUser(r)
+	levels := db.GetLevels(h.Db)
 	pathParams := getPathParams(r.URL.Path)
 	var categories []model.Category
 	var subcategories []model.Subcategory
@@ -113,27 +73,27 @@ func (h *Handler) prepareTemplateData(r *http.Request) map[string]interface{} {
 		levelName := getCurrentLevelName(levels, pathParams["level"])
 		pageTitle = "ZdamToSam | " + levelName
 		pageDescription = "Zadania dla poziomu " + strings.ToLower(levelName)
-		categories = db.GetCategoriesByLevel(h.db, pathParams["level"])
+		categories = db.GetCategoriesByLevel(h.Db, pathParams["level"])
 	} else {
-		categories = db.GetCategories(h.db)
+		categories = db.GetCategories(h.Db)
 	}
 	if pathParams["category"] != "" {
 		categoryPath = levelPath + "/category/" + pathParams["category"]
-		subcategories = db.GetSubcategories(h.db, pathParams["category"])
+		subcategories = db.GetSubcategories(h.Db, pathParams["category"])
 		categoryName := getCurrentCategoryName(categories, pathParams["category"])
 		pageTitle = "ZdamToSam | " + categoryName
 		pageDescription = "Zadania z działu " + strings.ToLower(categoryName)
 	}
 	if pathParams["subcategory"] != "" {
 		subcategoryPath = categoryPath + "/subcategory/" + pathParams["subcategory"]
-		exercises = db.GetExercisesBySubcategoryId(h.db, pathParams["subcategory"])
+		exercises = db.GetExercisesBySubcategoryId(h.Db, pathParams["subcategory"])
 		subcategoryName := getCurrentSubcategoryName(subcategories, pathParams["subcategory"])
 		pageTitle = "ZdamToSam | " + subcategoryName
 		pageDescription = "Zadania z rodziału " + strings.ToLower(subcategoryName)
 	}
 	if pathParams["exercise"] != "" {
 		exercisePath = subcategoryPath + "/exercise/" + pathParams["exercise"]
-		exercise = db.GetExerciseById(h.db, pathParams["exercise"])
+		exercise = db.GetExerciseById(h.Db, pathParams["exercise"])
 		rotateBy := rand.Intn(4)
 		answerIndex = (3 + rotateBy) % 4
 		exercise.Options = rotate(exercise.Options, rotateBy)
@@ -153,7 +113,7 @@ func (h *Handler) prepareTemplateData(r *http.Request) map[string]interface{} {
 		"CategoryPath":    categoryPath,
 		"SubcategoryPath": subcategoryPath,
 		"ExercisePath":    exercisePath,
-		"Breadcrumbs":     getBreadcrumbs(h.db, r.URL.Path),
+		"Breadcrumbs":     getBreadcrumbs(h.Db, r.URL.Path),
 		"QueryPage":       r.URL.Query().Get("page"),
 		"RawQuery":        "",
 		"PageTitle":       pageTitle,

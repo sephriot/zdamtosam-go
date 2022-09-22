@@ -17,7 +17,7 @@ func getPathParams(path string) map[string]string {
 	params := make(map[string]string)
 	if len(s) > 2 {
 		i := 1
-		for i < len(s) {
+		for i+1 < len(s) {
 			params[s[i]] = s[i+1]
 			i += 2
 		}

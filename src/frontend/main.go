@@ -5,16 +5,15 @@ import (
 	"firebase.google.com/go/v4/auth"
 	"net/http"
 	zdamtosamDB "zdamtosam.pl/src/db"
+	"zdamtosam.pl/src/generic"
 )
 
 type Handler struct {
-	db        *sql.DB
-	auth      *auth.Client
-	userCache *zdamtosamDB.UserCache
+	generic.Handler
 }
 
-func NewHandler(db *sql.DB, auth *auth.Client) *Handler {
-	return &Handler{db, auth, zdamtosamDB.NewUserCache()}
+func NewHandler(Db *sql.DB, Auth *auth.Client, UserCache *zdamtosamDB.UserCache) *Handler {
+	return &Handler{generic.Handler{Db: Db, Auth: Auth, UserCache: UserCache}}
 }
 
 func (h *Handler) Handle(w http.ResponseWriter, r *http.Request) {

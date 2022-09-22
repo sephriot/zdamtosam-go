@@ -11,8 +11,9 @@ import (
 
 var dbClient = db.NewDatabaseClient()
 var authClient = db.NewAuthClient()
-var api = backend.NewHandler(dbClient)
-var front = frontend.NewHandler(dbClient, authClient)
+var userCache = db.NewUserCache()
+var api = backend.NewHandler(dbClient, authClient, userCache)
+var front = frontend.NewHandler(dbClient, authClient, userCache)
 
 func init() {
 	functions.HTTP("Entrypoint", mainHandler)

@@ -12,7 +12,7 @@ func (h *Handler) Search(w http.ResponseWriter, r *http.Request) {
 	pageRegex := regexp.MustCompile(`page=[0-9]+&?`)
 
 	data := h.prepareTemplateData(r)
-	data["Exercises"] = db.GetExercisesBySearchQuery(h.db, r.URL.Query().Get("query"))
+	data["Exercises"] = db.GetExercisesBySearchQuery(h.Db, r.URL.Query().Get("query"))
 	data["RawQuery"] = template.HTMLAttr(pageRegex.ReplaceAllString(r.URL.RawQuery, ""))
 	data["PageTitle"] = "ZdamToSam | Wyszukaj zadanie"
 

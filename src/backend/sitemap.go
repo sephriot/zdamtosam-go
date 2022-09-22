@@ -41,25 +41,25 @@ func (h *Handler) Sitemap(w http.ResponseWriter, r *http.Request) {
 	url.Loc = "/terms-of-service"
 	url.Priority = 0.1
 	sitemap.Add(url)
-	levels := db.GetLevels(h.db)
+	levels := db.GetLevels(h.Db)
 	for _, level := range levels {
 		levelIdString := strconv.Itoa(level.Id)
 		url.Loc = "/level/" + levelIdString
 		url.Priority = 0.6
 		sitemap.Add(url)
-		categories := db.GetCategoriesByLevel(h.db, levelIdString)
+		categories := db.GetCategoriesByLevel(h.Db, levelIdString)
 		for _, category := range categories {
 			categoryIdString := strconv.Itoa(category.Id)
 			url.Loc = "/level/" + levelIdString + "/category/" + categoryIdString
 			url.Priority = 0.7
 			sitemap.Add(url)
-			subcategories := db.GetSubcategories(h.db, categoryIdString)
+			subcategories := db.GetSubcategories(h.Db, categoryIdString)
 			for _, subcategory := range subcategories {
 				subcategoryIdString := strconv.Itoa(subcategory.Id)
 				url.Loc = "/level/" + levelIdString + "/category/" + categoryIdString + "/subcategory/" + subcategoryIdString
 				url.Priority = 0.8
 				sitemap.Add(url)
-				exercises := db.GetExercisesBySubcategoryId(h.db, subcategoryIdString)
+				exercises := db.GetExercisesBySubcategoryId(h.Db, subcategoryIdString)
 				for _, exercise := range exercises {
 					exerciseIdString := strconv.Itoa(exercise.Id)
 					url.Loc = "/level/" + levelIdString + "/category/" + categoryIdString + "/subcategory/" + subcategoryIdString + "/exercise/" + exerciseIdString

@@ -7,7 +7,7 @@ import (
 )
 
 func (h *Handler) TermsOfService(w http.ResponseWriter, r *http.Request) {
-	levels := db.GetLevels(h.db)
+	levels := db.GetLevels(h.Db)
 	levelPath := ""
 	pageTitle := "ZdamToSam | Warunki korzystania z serwisu"
 	pageDescription := "Warunki korzystania z serwisu ZdamToSam"
@@ -16,7 +16,7 @@ func (h *Handler) TermsOfService(w http.ResponseWriter, r *http.Request) {
 		"Levels":          levels,
 		"LevelPath":       levelPath,
 		"CurrentPath":     r.URL.Path,
-		"Breadcrumbs":     getBreadcrumbs(h.db, r.URL.Path),
+		"Breadcrumbs":     getBreadcrumbs(h.Db, r.URL.Path),
 		"PageTitle":       pageTitle,
 		"PageDescription": pageDescription,
 	}
