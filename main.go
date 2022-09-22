@@ -30,6 +30,9 @@ func mainHandler(w http.ResponseWriter, r *http.Request) {
 		case "login":
 			front.Login(w, r)
 			break
+		case "profile":
+			front.Profile(w, r)
+			break
 		case "index.html":
 			front.Handle(w, r)
 			break

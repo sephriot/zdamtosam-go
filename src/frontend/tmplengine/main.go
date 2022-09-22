@@ -45,6 +45,9 @@ func Render(w http.ResponseWriter, data interface{}, templates ...string) {
 		"divCeil": func(a, b int) int {
 			return int(math.Ceil(float64(a) / float64(b)))
 		},
+		"div": func(a, b int) int {
+			return a / b
+		},
 		"toURL": func(v string) template.URL {
 			return template.URL(v)
 		},

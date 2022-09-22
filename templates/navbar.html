@@ -24,13 +24,12 @@
                 Zaloguj się
             </a>
             {{ else }}
-            <div class="btn btn-outline-success float-end" onclick="logout()">
-                Wyloguj się
-            </div>
-<!--            Future use -->
-<!--            <a href="/profile">-->
-<!--                <img src="{{ .LoggedUser.Picture }}" class="rounded-circle" alt="Profile picture" width="40px" height="40px" />-->
-<!--            </a>-->
+<!--            <div class="btn btn-outline-success float-end" onclick="logout()">-->
+<!--                Wyloguj się-->
+<!--            </div>-->
+            <a class="float-end" href="/profile">
+                <img src="{{ .LoggedUser.Picture }}" class="rounded-circle" alt="Profile picture" width="40px" height="40px" />
+            </a>
             {{ end }}
         </div>
     </div>

@@ -20,7 +20,5 @@ func (h *Handler) Search(w http.ResponseWriter, r *http.Request) {
 		tmplengine.FS_PATH_PREFIX+"templates/search.html",
 		tmplengine.FS_PATH_PREFIX+"templates/navbar.html",
 		tmplengine.FS_PATH_PREFIX+"templates/categories.html",
-		tmplengine.FS_PATH_PREFIX+"templates/subcategories.html",
-		tmplengine.FS_PATH_PREFIX+"templates/exercises.html",
-		tmplengine.FS_PATH_PREFIX+"templates/exercise.html")
+		tmplengine.FS_PATH_PREFIX+"templates/exercises.html")
 }
